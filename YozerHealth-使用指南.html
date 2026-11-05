@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>悦泽健康 YozerHealth · 使用指南（v2.9.1）</title>
+<style>
+  :root{
+    --primary:#1A8CFF; --primary-dark:#0B6FD6; --bg:#F6F9FE; --card:#FFFFFF;
+    --ink:#1F2937; --ink2:#6B7280; --line:#E5EAF2;
+    --ok:#22C55E; --ok-soft:#E7F8EE; --warn:#F59E0B; --warn-soft:#FEF3E2;
+    --bad:#EF4444; --bad-soft:#FDEDED; --soft-blue:#EAF3FF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.75; padding-bottom:60px;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:0 20px;}
+
+  /* ---------- 头部 ---------- */
+  header{
+    background:linear-gradient(135deg,#1A8CFF 0%,#0B6FD6 100%);
+    color:#fff; padding:44px 0 36px;
+  }
+  header .wrap{display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
+  .logo{
+    width:64px; height:64px; border-radius:18px; background:rgba(255,255,255,.18);
+    display:flex; align-items:center; justify-content:center; font-size:34px; flex:none;
+  }
+  header h1{font-size:26px; letter-spacing:.5px;}
+  header .sub{opacity:.9; font-size:14px; margin-top:2px;}
+  .pills{margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;}
+  .pill{
+    background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.35);
+    border-radius:999px; padding:2px 12px; font-size:12px;
+  }
+  .pill.vip{background:#F59E0B; border-color:#F59E0B; color:#fff; font-weight:600;}
+
+  /* ---------- 目录 ---------- */
+  nav.toc{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    margin:-22px auto 28px; padding:16px 20px; box-shadow:0 6px 20px rgba(26,140,255,.08);
+  }
+  nav.toc b{font-size:14px; color:var(--ink2); display:block; margin-bottom:6px;}
+  nav.toc a{
+    color:var(--primary-dark); text-decoration:none; font-size:13.5px;
+    margin-right:16px; white-space:nowrap; display:inline-block; padding:2px 0;
+  }
+  nav.toc a:hover{text-decoration:underline;}
+
+  /* ---------- 通用区块 ---------- */
+  a{color:var(--primary-dark);}
+  section{margin-bottom:34px;}
+  h2{
+    font-size:20px; margin-bottom:4px; display:flex; align-items:center; gap:9px;
+  }
+  h2 .idx{
+    background:var(--soft-blue); color:var(--primary-dark); font-size:13px; font-weight:700;
+    width:26px; height:26px; border-radius:8px; display:inline-flex;
+    align-items:center; justify-content:center; flex:none;
+  }
+  h2 + .desc{color:var(--ink2); font-size:13.5px; margin-bottom:14px;}
+  h3{font-size:15.5px; margin:18px 0 8px;}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:18px 20px; margin-bottom:14px;
+  }
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(262px,1fr)); gap:14px;}
+  .muted{color:var(--ink2); font-size:13px;}
+  .tag{
+    display:inline-block; border-radius:999px; padding:1px 10px; font-size:12px; font-weight:600;
+  }
+  .tag.blue{background:var(--soft-blue); color:var(--primary-dark);}
+  .tag.ok{background:var(--ok-soft); color:#15803D;}
+  .tag.warn{background:var(--warn-soft); color:#B45309;}
+  .tag.bad{background:var(--bad-soft); color:#B91C1C;}
+  ul.dots{padding-left:20px;}
+  ul.dots li{margin:4px 0;}
+  .kbd{
+    background:#EEF2F8; border:1px solid var(--line); border-bottom-width:2px;
+    border-radius:6px; padding:0 7px; font-size:12.5px; font-family:inherit;
+  }
+
+  /* ---------- 底部导航示意 ---------- */
+  .navbar{
+    display:flex; background:#fff; border:1px solid var(--line); border-radius:14px;
+    overflow:hidden; margin-bottom:14px;
+  }
+  .navbar .nav-item{
+    flex:1; text-align:center; padding:12px 4px; font-size:13px; color:var(--ink2);
+    border-right:1px dashed var(--line);
+  }
+  .navbar .nav-item:last-child{border-right:none;}
+  .navbar .nav-item .ic{font-size:20px; display:block;}
+  .navbar .nav-item.active{color:var(--primary); font-weight:700; background:var(--soft-blue);}
+
+  /* ---------- 功能卡片 ---------- */
+  .feat{display:flex; gap:12px; align-items:flex-start;}
+  .feat .ic{
+    width:38px; height:38px; border-radius:10px; background:var(--soft-blue);
+    display:flex; align-items:center; justify-content:center; font-size:19px; flex:none;
+  }
+  .feat b{font-size:14px;}
+  .feat p{font-size:13px; color:var(--ink2);}
+
+  /* ---------- 步骤 ---------- */
+  ol.steps{counter-reset:s; list-style:none; padding-left:0;}
+  ol.steps li{
+    position:relative; padding:0 0 14px 40px; counter-increment:s; font-size:14px;
+  }
+  ol.steps li::before{
+    content:counter(s); position:absolute; left:0; top:1px;
+    width:26px; height:26px; border-radius:50%; background:var(--primary); color:#fff;
+    font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;
+  }
+  ol.steps li::after{
+    content:""; position:absolute; left:12.5px; top:30px; bottom:2px; width:1px; background:var(--line);
+  }
+  ol.steps li:last-child::after{display:none;}
+
+  /* ---------- 流程图 ---------- */
+  .flow{display:flex; align-items:stretch; gap:0; flex-wrap:wrap; margin:8px 0 4px;}
+  .flow .node{
+    background:var(--soft-blue); border:1px solid #C9E2FF; color:var(--primary-dark);
+    border-radius:10px; padding:8px 14px; font-size:13px; font-weight:600; text-align:center;
+  }
+  .flow .arr{
+    align-self:center; color:var(--primary); font-weight:700; padding:0 8px; font-size:15px;
+  }
+  .branch{display:flex; gap:12px; margin-top:10px; flex-wrap:wrap;}
+  .branch .b{
+    flex:1; min-width:240px; border-radius:12px; padding:12px 14px; font-size:13px;
+  }
+  .branch .b.lab{background:var(--ok-soft); border:1px solid #BEE9CC;}
+  .branch .b.img{background:var(--soft-blue); border:1px solid #C9E2FF;}
+  .branch .b b{display:block; margin-bottom:4px;}
+
+  /* ---------- 表格 ---------- */
+  table{width:100%; border-collapse:collapse; font-size:13.5px; margin-top:6px;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--soft-blue); color:var(--primary-dark); font-size:13px; white-space:nowrap;}
+  tr:nth-child(even) td{background:#FBFDFF;}
+
+  /* ---------- 提示框 ---------- */
+  .note{
+    border-left:4px solid var(--warn); background:var(--warn-soft);
+    border-radius:0 10px 10px 0; padding:10px 14px; font-size:13px; margin:10px 0;
+  }
+  .note.blue{border-left-color:var(--primary); background:var(--soft-blue);}
+  .note.ok{border-left-color:var(--ok); background:var(--ok-soft);}
+
+  footer{
+    text-align:center; color:var(--ink2); font-size:12.5px; border-top:1px solid var(--line);
+    padding-top:22px; margin-top:36px;
+  }
+  footer b{color:var(--ink);}
+  @media (max-width:640px){
+    header h1{font-size:21px;}
+    .flow{flex-direction:column; align-items:stretch;}
+    .flow .arr{transform:rotate(90deg); text-align:center; padding:2px 0;}
+  }
+  @media print{
+    header{background:#1A8CFF !important; -webkit-print-color-adjust:exact;}
+    body{background:#fff;}
+    nav.toc{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">❤</div>
+    <div>
+      <h1>悦泽健康 YozerHealth · 使用指南</h1>
+      <div class="sub">把散落在纸质报告、相册和记忆里的健康数据，收进一个随时能翻、能讲、能给医生看的档案</div>
+      <div class="pills">
+        <span class="pill">版本 2.9.1 (20)</span>
+        <span class="pill vip">正式版</span>
+        <span class="pill">全离线 · 数据不出手机</span>
+        <span class="pill">开发者：悦泽健康（YozerHealth）</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <b>目录</b>
+    <a href="#s1">① 应用概览</a>
+    <a href="#s2">② 主界面导览</a>
+    <a href="#s3">③ 添加记录（8 种方式）</a>
+    <a href="#s4">④ 拍照 / PDF 智能识别</a>
+    <a href="#s5">⑤ 分类与记录管理</a>
+    <a href="#s6">⑥ 分析与趋势</a>
+    <a href="#s7">⑦ 健康摘要（医生视图）</a>
+    <a href="#s8">⑧ 成员管理</a>
+    <a href="#s9">⑨ 数据与隐私安全</a>
+    <a href="#s10">⑩ 常见问题</a>
+    <a href="YozerHealth-变更记录.html">📜 版本变更记录 ↗</a>
+  </nav>
+
+  <!-- ================= 1 应用概览 ================= -->
+  <section id="s1">
+    <h2><span class="idx">1</span>应用概览</h2>
+    <p class="desc">悦泽健康 YozerHealth 是一款<b>完全离线</b>运行的本机健康档案应用，无需注册登录、无账号、无云端。</p>
+    <div class="card grid">
+      <div class="feat"><div class="ic">📷</div><div><b>拍照 / 相册 / PDF 识别</b><p>端侧 OCR 自动读取报告单数值，自动比对参考区间并标记异常；自动判别检验 / CT / B超等报告类型。</p></div></div>
+      <div class="feat"><div class="ic">🎙️</div><div><b>语音口述录入</b><p>说一句「血压 138 88」，自动拆成结构化指标。</p></div></div>
+      <div class="feat"><div class="ic">🧬</div><div><b>疾病与用药时间线</b><p>记录起病与康复时间，未康复自动标记「持续治疗中」。</p></div></div>
+      <div class="feat"><div class="ic">📈</div><div><b>趋势与一键汇总</b><p>单指标折线趋势、异常集中呈现，一键生成就诊摘要给医生看。</p></div></div>
+      <div class="feat"><div class="ic">🗂️</div><div><b>分类 / 检索 / 归档</b><p>按生命体征、检验、影像等五大类归档，支持全局搜索。</p></div></div>
+      <div class="feat"><div class="ic">🔒</div><div><b>加密与应用锁</b><p>敏感字段 AES 加密落盘；支持 PIN 码与指纹 / 面容解锁。</p></div></div>
+    </div>
+    <div class="note ok">隐私承诺：应用已在系统层面移除联网权限，OCR 模型内置手机本地，图片、文字与音频<b>不会上传任何服务器</b>。</div>
+  </section>
+
+  <!-- ================= 2 主界面导览 ================= -->
+  <section id="s2">
+    <h2><span class="idx">2</span>主界面导览</h2>
+    <p class="desc">底部导航共 4 个标签页，右下角悬浮「<b>＋</b>」按钮是所有录入入口。</p>
+    <div class="navbar">
+      <div class="nav-item active"><span class="ic">🏠</span>首页</div>
+      <div class="nav-item"><span class="ic">▦</span>分类</div>
+      <div class="nav-item"><span class="ic">📊</span>分析</div>
+      <div class="nav-item"><span class="ic">👤</span>我的</div>
+    </div>
+    <table>
+      <tr><th style="width:88px;">页面</th><th>主要内容</th></tr>
+      <tr>
+        <td><b>🏠 首页</b></td>
+        <td>成员头像与切换、搜索入口、健康摘要（医生视图）入口、<b>检验 / 影像统计卡</b>（检验报告数、影像检查数、异常指标数，点击进入对应分类）、<b>📈 指标趋势</b>入口（血压 / 血糖 / 体重曲线），下方是<b>检验·影像时间轴</b>（仅展示检验与影像检查记录，按时间倒序）。点击卡片进入记录详情；卡片上若有「<b>📎 源文件</b>」角标，点一下即可直接预览原始图片 / PDF，不必先进详情页。</td>
+      </tr>
+      <tr>
+        <td><b>▦ 分类</b></td>
+        <td>五大分类卡片：<b>生命体征</b>（体温·血压·血糖·体重）、<b>检验</b>（血·尿·生化·肝肾）、<b>影像检查</b>（CT·B超·MR·X光·心电图）、<b>诊断治疗</b>（门诊·住院·复诊·手术）、<b>其他</b>（自由记录）。点击进入分类明细，查看该类全部记录。</td>
+      </tr>
+      <tr>
+        <td><b>📊 分析</b></td>
+        <td>自动生成健康概览：整体摘要、分析结论、建议动作、体检项目覆盖情况。</td>
+      </tr>
+      <tr>
+        <td><b>👤 我的</b></td>
+        <td>家庭成员管理（新增 / 编辑 / 删除 / 切换）、应用锁（PIN + 生物识别）、数据管理（导出 / 清空）、关于页。</td>
+      </tr>
+    </table>
+    <div class="note blue"><b>返回逻辑：</b>任何二级页面（记录详情、附件预览等）按系统返回键都会回到<b>进入前的那个页面</b>；例如在分类明细里点开附件，返回后仍停留在分类明细。</div>
+  </section>
+
+  <!-- ================= 3 添加记录 ================= -->
+  <section id="s3">
+    <h2><span class="idx">3</span>添加记录：8 种入口</h2>
+    <p class="desc">点击右下角「<b>＋</b>」悬浮按钮，弹出添加面板。</p>
+    <div class="card grid">
+      <div class="feat"><div class="ic">📄</div><div><b>模板录入</b><p>内置模板：血压、血糖、血常规、血脂四项、肝功能、肾功能、体温、体重、影像检查。按字段填数即可，自动判级。</p></div></div>
+      <div class="feat"><div class="ic">✏️</div><div><b>文字录入</b><p>随手记一段话或自由填写，支持选择大类 / 小类分类。</p></div></div>
+      <div class="feat"><div class="ic">📷</div><div><b>拍照录入</b><p>直接拍报告单，端侧 OCR 自动识别指标或文字段落。</p></div></div>
+      <div class="feat"><div class="ic">🖼️</div><div><b>相册选择</b><p>导入已有的报告照片进行识别。</p></div></div>
+      <div class="feat"><div class="ic">📑</div><div><b>PDF 导入</b><p>体检报告 PDF 逐页渲染并识别，适合电子体检报告。</p></div></div>
+      <div class="feat"><div class="ic">🎤</div><div><b>语音录入</b><p>调用系统语音识别，口述血压 / 血糖等自动结构化，不保存音频。</p></div></div>
+      <div class="feat"><div class="ic">🩺</div><div><b>疾病记录</b><p>填写疾病名称、起病与康复时间；未康复自动标记「持续治疗中」。</p></div></div>
+      <div class="feat"><div class="ic">💊</div><div><b>用药记录</b><p>药名 / 用量 / 频次 / 起止时间，可关联已有疾病；<b>支持拍照或选图 OCR 自动识别药名</b>，并能<b>保存药品图片</b>（点缩略图可放大查看原图）。</p></div></div>
+    </div>
+    <div class="note">「结构化档案」区的疾病、用药记录统一在<b>健康摘要（医生视图）</b>里查看和管理时间线。</div>
+  </section>
+
+  <!-- ================= 4 智能识别 ================= -->
+  <section id="s4">
+    <h2><span class="idx">4</span>拍照 / PDF 智能识别（核心功能）</h2>
+    <p class="desc">识别在你的手机上本地完成，整个过程分四步：</p>
+    <div class="card">
+      <div class="flow">
+        <div class="node">📷 拍照 / 选图 / PDF</div><div class="arr">→</div>
+        <div class="node">端侧 OCR 识别文字</div><div class="arr">→</div>
+        <div class="node">自动判型 + 解析</div><div class="arr">→</div>
+        <div class="node">人工核对 → 保存</div>
+      </div>
+      <div class="branch">
+        <div class="b lab">
+          <b>🧪 识别为「检验报告」</b>
+          自动把白细胞、血红蛋白、转氨酶等指标<b>逐项填充</b>（含数值、单位、参考区间、↑↓异常标记），并自动归类到「检验」大类和对应小类（血常规 / 尿常规 / 肝功能 / 肾功能 / 血脂 / 生化）。
+        </div>
+        <div class="b img">
+          <b>🩻 识别为「CT / B超 / MR / X光 / 心电图」</b>
+          只保留文字内容：自动提取「<b>检查所见</b>」与「<b>诊断结论</b>」两个段落（影像所见 / 超声提示 / 检查描述等写法都支持），自动归入「影像检查」大类并填好小类，识别到的杂散数字不会混成指标。
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">复核页能做什么</h3>
+      <ul class="dots">
+        <li><b>原图对照：</b>页面显示原图缩略图，点击看大图，逐项核对。</li>
+        <li><b>检验时间自动填入：</b>从报告上提取检验 / 检查 / 采样时间（其次报告日期），填入「检验时间」输入框，可手动修改；留空则记为录入时刻。</li>
+        <li><b>逐项纠错：</b>每个指标都能改名称、数值、单位、参考上下限，或整条删除；识别漏了可「手动添加一项」。</li>
+        <li><b>所见 / 结论可编辑：</b>影像类报告的两个文字段落均可在保存前修改。</li>
+        <li><b>增强重识别：</b>对灰暗、倾斜的翻拍件，可再跑一遍对比度增强通道重新识别。</li>
+        <li><b>查看识别原文：</b>展开 OCR 原文，方便判断解析是否错位。</li>
+      </ul>
+      <div class="note"><b>提示：</b>OCR 只做辅助，保存前请务必对照原图核对数值。兼容「3.5--9.5」双横线、小数点后带空格（「4. 49」）等常见 OCR 噪声。</div>
+    </div>
+  </section>
+
+  <!-- ================= 5 分类与记录管理 ================= -->
+  <section id="s5">
+    <h2><span class="idx">5</span>分类与记录管理</h2>
+    <div class="card">
+      <h3 style="margin-top:0;">分类体系（大类 → 小类）</h3>
+      <table>
+        <tr><th>大类</th><th>小类</th></tr>
+        <tr><td>🩺 生命体征</td><td>体温 · 血压 · 血糖 · 体重 · 心率 · 其他</td></tr>
+        <tr><td>🧪 检验</td><td>血常规 · 尿常规 · 生化 · 肝功能 · 肾功能 · 血脂 · 其他</td></tr>
+        <tr><td>🩻 影像检查</td><td>CT · B超 · MR · X光 · 心电图 · 其他</td></tr>
+        <tr><td>📋 诊断治疗</td><td>门诊 · 住院 · 复诊 · 手术 · 其他</td></tr>
+        <tr><td>📎 其他</td><td>自由记录</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">记录详情与编辑</h3>
+      <ul class="dots">
+        <li>详情页展示标题、分类、时间、医院、指标表格（异常项高亮）、所见与结论文字。</li>
+        <li>详情页可点「<b>📎 源文件</b>」查看原始附件（图片 / PDF）：图片与 PDF 均支持<b>双指捏合缩放</b>，PDF 还可双击在原大 / 2.5 倍间切换，放大后单指拖动平移。</li>
+        <li>编辑页可修改全部字段并增删指标；删除需确认。</li>
+        <li>首页「<b>📈 指标趋势</b>」入口可查看体重、血压、血糖、心率、血氧等指标的长期趋势折线图与日历视图。</li>
+        <li><b>参考区间标注：</b>趋势图中自动绘制「参考区间上下限」虚线并标注参考值（如血压 90–139 / 60–89），区间外的数据点以红色高亮为异常，一眼看出偏离。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">全局搜索</h3>
+      <p class="muted">首页点击搜索图标，可按标题 / 内容 / 指标名全局检索，结果中可直接进入详情、编辑或删除。</p>
+    </div>
+  </section>
+
+  <!-- ================= 6 分析与趋势 ================= -->
+  <section id="s6">
+    <h2><span class="idx">6</span>分析与趋势</h2>
+    <p class="desc">底部「分析」标签页自动汇总当前成员的全部数据。</p>
+    <div class="card grid">
+      <div class="feat"><div class="ic">🧾</div><div><b>健康概览摘要</b><p>一段话概括当前记录总量、异常情况与数据跨度。</p></div></div>
+      <div class="feat"><div class="ic">💡</div><div><b>分析结论</b><p>自动归纳关键发现，例如异常指标聚集、长期趋势变化。</p></div></div>
+      <div class="feat"><div class="ic">✅</div><div><b>建议动作</b><p>给出复查、补录、归档等可执行建议。</p></div></div>
+      <div class="feat"><div class="ic">📋</div><div><b>体检项目覆盖</b><p>展示已记录的体检 / 检验项目覆盖面，发现记录盲区。</p></div></div>
+    </div>
+    <div class="note blue">分析全部由本机规则计算，不联网、不调用云端 AI。</div>
+  </section>
+
+  <!-- ================= 7 医生视图 ================= -->
+  <section id="s7">
+    <h2><span class="idx">7</span>健康摘要（医生视图）</h2>
+    <p class="desc">就诊时最常用的页面：把重要信息浓缩成一页给医生看。</p>
+    <div class="card">
+      <ul class="dots">
+        <li><b>入口：</b>首页顶部头像旁的入口，或分类页「健康档案」。</li>
+        <li><b>内容：</b>成员基础信息、<b>关键异常（近 3 月）</b>、当前用药、诊断治疗史、历史疾病时间线、历史用药时间线、<b>过敏史</b>与<b>手术史</b>（均可在页内录入、编辑、删除）。</li>
+        <li><b>展示模式：</b>一键切换为大字号、隐藏编辑入口的「展示模式」，方便直接把手机递给医生看。</li>
+        <li><b>分享摘要：</b>底部「📤 分享摘要」可一键导出为<b>多页 PDF</b>——三个标签页内容各占一页、合并为一份文档（生成失败会自动退回纯文本），也可直接分享纯文本，通过微信 / 邮件等发给医生或家人。</li>
+      </ul>
+      <div class="note ok">摘要末页注明「仅供就诊参考，不作为诊断依据」。</div>
+    </div>
+  </section>
+
+  <!-- ================= 8 成员管理 ================= -->
+  <section id="s8">
+    <h2><span class="idx">8</span>家庭成员管理</h2>
+    <div class="card">
+      <ul class="dots">
+        <li>支持添加多位家庭成员（姓名、性别、出生年、身高、体重），各自的数据完全独立。</li>
+        <li>首页头像栏点击即可<b>切换成员</b>；「我的」页可编辑 / 删除成员资料。</li>
+        <li>删除成员会同时删除其全部健康数据，请谨慎操作（建议先导出备份）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= 9 数据与隐私 ================= -->
+  <section id="s9">
+    <h2><span class="idx">9</span>数据与隐私安全</h2>
+    <div class="card">
+      <h3 style="margin-top:0;">隐私设计</h3>
+      <ul class="dots">
+        <li><b>无账号、无云端：</b>不需要注册登录，所有数据只存在你的手机里。</li>
+        <li><b>识别全程离线：</b>OCR 模型内置于应用，图片与文本不上传服务器。</li>
+        <li><b>语音不录音：</b>调用系统语音识别，应用不保存音频。</li>
+        <li><b>字段级加密：</b>敏感字段经 Keystore 托管密钥 AES-256-GCM 加密后落盘。</li>
+        <li><b>已移除联网权限：</b>系统层面无法发起任何网络连接。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">应用锁</h3>
+      <ul class="dots">
+        <li>「我的」页可开启 <b>PIN 码锁</b>（仅存加盐哈希，无法还原）与<b>指纹 / 面容解锁</b>。</li>
+        <li>开启后每次进入应用需先解锁；支持修改 PIN，关闭锁需验证旧 PIN。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">数据管理（我的 → 数据管理）</h3>
+      <ul class="dots">
+        <li><b>本机数据概览：</b>查看记录数、附件占用等。</li>
+        <li><b>导出健康摘要（文件）：</b>生成文本摘要文件，走系统分享面板发送。</li>
+        <li><b>导出全部数据（文件）：</b>纯文本形式的完整数据导出，便于查看。</li>
+        <li><b>导出备份包（全部成员）：</b>把<b>全部成员</b>的数据库信息、药品 / 报告图片、PDF 原件等<b>整体打包成一个 zip 文件</b>，走系统分享面板发出；换手机后可通过「导入备份包」整体恢复。</li>
+        <li><b>导出当前成员备份包：</b>仅打包当前选中成员的数据，适合只想迁移某一位成员的情景。</li>
+        <li><b>导入备份包：</b>在「我的 → 数据管理」选择备份 zip，整体恢复数据（含图片 / PDF 原件）：
+          <ul class="dots" style="margin:6px 0 0 18px;">
+            <li><b>全部成员备份</b>：先清空本机全部数据再恢复（完整迁移，覆盖）。</li>
+            <li><b>单成员备份</b>：仅替换该成员的数据，不影响其他成员（合并）。</li>
+            <li>备份以<b>明文</b>写入 zip，导入时由目标设备用其自身密钥<b>重新加密入库</b>，因此备份包可在任意设备安装同版本应用后恢复（换手机是典型场景）。</li>
+          </ul>
+        </li>
+        <li><b>清空健康数据：</b><span class="tag bad">不可恢复</span> 删除当前成员的全部记录、指标、疾病、用药与档案（含附件副本），基础资料保留。操作需二次确认，请先导出备份。</li>
+      </ul>
+      <div class="note">卸载应用或清除应用数据将彻底删除所有内容，重要数据请定期导出备份。</div>
+    </div>
+  </section>
+
+  <!-- ================= 10 FAQ ================= -->
+  <section id="s10">
+    <h2><span class="idx">10</span>常见问题</h2>
+    <div class="card">
+      <p><b>Q：识别不到指标怎么办？</b></p>
+      <p class="muted">①点「增强重识别」对灰暗 / 倾斜照片再试一次；②展开「识别原文」手动对照；③用「手动添加一项」补录；④照片尽量平整、光线充足、占满画面。</p>
+      <p style="margin-top:10px;"><b>Q：报告上的日期会自动记进去吗？</b></p>
+      <p class="muted">会。识别后自动提取「检验 / 检查 / 采样时间」（没有则退化为报告日期）填入「检验时间」框，你可手动修正；留空则记为录入时刻。</p>
+      <p style="margin-top:10px;"><b>Q：CT / B超这类没有数值的报告怎么录？</b></p>
+      <p class="muted">直接拍照或导 PDF，应用会自动识别为影像类报告，只保留「检查所见」「诊断结论」文字段落，不会把报告里的尺寸数字误存为指标。</p>
+      <p style="margin-top:10px;"><b>Q：卡片上的「📎 源文件」是什么？</b></p>
+      <p class="muted">是这条记录对应的原始照片 / PDF。点击角标即可直接预览附件，不必先进详情页。</p>
+      <p style="margin-top:10px;"><b>Q：换手机数据怎么办？</b></p>
+      <p class="muted">在「我的 → 数据管理」点「🗜 导出备份包（全部成员）」，把打包好的 zip 通过微信 / 网盘等发到新手机；在新手机上打开同版本应用，进入「数据管理 → 📥 导入备份包」选择该 zip 即可整体恢复（含图片与 PDF 原件）。单成员也能单独导出 / 导入。</p>
+    </div>
+  </section>
+
+  <!-- 版本变更说明已拆分为独立文件：YozerHealth-变更记录.html -->
+
+  <footer>
+    <b>悦泽健康 YozerHealth v2.9.1</b> · 正式版 · 本机离线健康档案<br>
+    <a href="YozerHealth-变更记录.html">📜 查看版本变更记录 →</a><br>
+    开发者：悦泽健康（YozerHealth） ｜ 邮箱：YozerHealth@163.com ｜ 微信号：sin7310<br>
+    © 2026 悦泽健康 YozerHealth
+  </footer>
+
+</div>
+</body>
+</html>
